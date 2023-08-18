@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ignite State Manager</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset class="container">
+      <legend>Counter</legend>
+
+      <h1 id="counter">0</h1>
+
+      <footer id="counterFooter">
+        <button id="incrementButton" class="button">+ Increment</button>
+        <button id="decrementButton" class="button">- Decrement</button>
+      </footer>
+    </fieldset>
+
+    <fieldset class="container">
+      <legend>Content</legend>
+
+      <div id="contentGroup">
+        <textarea id="content"></textarea>
+        <textarea id="contentMirror" readonly></textarea>
+      </div>
+
+      <footer id="contentFooter">
+        <span id="contentLength">0</span> characters
+      </footer>
+    </fieldset>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
