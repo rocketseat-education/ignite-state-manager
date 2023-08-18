@@ -1,6 +1,7 @@
 const reservedKeys = ['watch'] as const
 
-type WatcherCallback<T> = (slice: T) => void
+type Slice<T> = { [K in keyof T]: T[K] }
+type WatcherCallback<T> = (slice: Slice<T>) => void
 type ReservedProps = typeof reservedKeys[number]
 type DisallowProps<T> = T & Partial<Record<ReservedProps, never>>
 
@@ -11,7 +12,7 @@ type ExcludeMethods<T> = {
 export function createStore<T extends Record<string, unknown>>(
   initialState: DisallowProps<T>
 ) {
-  const watchers = new Map<any, WatcherCallback<T>[]>()
+  const watchers = new Map<keyof T, WatcherCallback<T>[]>()
 
   const features = {
     watch<K extends keyof ExcludeMethods<T>, W extends WatcherCallback<Record<K, T[K]>>>(key: K, callback: W) {
@@ -42,11 +43,11 @@ export function createStore<T extends Record<string, unknown>>(
       }
 
       if (isValueChanged) {
-        if (watchers.has(prop)) {
-          const watchersFromKey: WatcherCallback<T>[] = watchers.get(prop)!
+        if (watchers.has(key)) {
+          const watchersFromKey: WatcherCallback<T>[] = watchers.get(key)!
 
           watchersFromKey.forEach((callback) => {
-            callback({ [prop]: value } as T)
+            callback({ [key]: value } as Slice<T>)
           })
         }
       }
